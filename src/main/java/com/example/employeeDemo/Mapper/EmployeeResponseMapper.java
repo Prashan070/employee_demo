@@ -17,7 +17,7 @@ public class EmployeeResponseMapper {
         responseDto.setEmail(employee.getEmail());
         responseDto.setRollNo(employee.getRollNo());
         responseDto.setSubject(employee.getSubject());
-        responseDto.setDeleted(employee.getDeleted());
+        responseDto.setDeleted(employee.getIsDeleted());
         responseDto.setCreatedAt(employee.getCreatedAt());
         responseDto.setUpdatedAt(employee.getUpdatedAt());
 
@@ -25,10 +25,10 @@ public class EmployeeResponseMapper {
     }
 
 
-    public static List<EmployeeResponseDto> getListEmployeeResponse(List<Employee> employeeList){
+    public static List<EmployeeResponseDto> getListEmployeeResponse(List<Employee> employeeList) {
         return employeeList
                 .stream()
-                .map()
+                .map(EmployeeResponseMapper::getEmployeeResponse).toList();
     }
 }
 

@@ -1,13 +1,7 @@
 package com.example.employeeDemo.Entity;
 
-import jakarta.annotation.PostConstruct;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
 import java.time.LocalDateTime;
 
@@ -19,26 +13,32 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Length(max = 12)
+    @Column(nullable = false, length = 12)
     private String name;
-
-
-    private int age;
+    @Column(nullable = false)
+    private Integer age;
+    @Column(nullable = false)
     private String email;
-    private int rollNo;
+    @Column(nullable = false)
+    private Integer rollNo;
+    @Column(nullable = false)
     private String subject;
-    private Boolean deleted;
+    @Column(nullable = false)
+    private Boolean isDeleted;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @PostConstruct
-    public void setCreateDate() {
-     setCreatedAt(LocalDateTime.now());
+    @PrePersist
+    public void onCreate() {
+        setCreatedAt(LocalDateTime.now());
+        setUpdatedAt(LocalDateTime.now());
     }
 
-    @PostConstruct
-    public void setUpdateDate() {
-    setUpdatedAt(LocalDateTime.now());
+    @PreUpdate
+    public void onUpdate() {
+        setUpdatedAt(LocalDateTime.now());
     }
 }

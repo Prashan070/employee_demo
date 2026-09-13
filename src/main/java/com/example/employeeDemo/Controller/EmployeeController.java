@@ -38,4 +38,16 @@ public class EmployeeController {
         EmployeeResponseDto employeeResponseDto = employeeService.getEmployeeById(id);
         return ResponseEntity.status(HttpStatus.OK).body(employeeResponseDto);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long id){
+        employeeService.deleteEmployeeById(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PatchMapping("/soft-delete/{id}")
+    public ResponseEntity<String> softDeleteEmployeeById(@PathVariable Long id){
+        employeeService.softDeleteEmployeeById(id);
+        return ResponseEntity.status(HttpStatus.GONE).build();
+    }
 }

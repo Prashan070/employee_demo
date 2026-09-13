@@ -22,21 +22,34 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeResponseDto createEmployee(EmployeeRequestDto employeeRequestDto) {
         Employee employee = EmployeeRequestMapper.getEmployeeEntity(employeeRequestDto);
-        employee.setDeleted(false);
+        employee.setIsDeleted(false);
         Employee savedEmployee = employeeRepository.save(employee);
         return EmployeeResponseMapper.getEmployeeResponse(savedEmployee);
     }
 
     @Override
     public List<EmployeeResponseDto> getListOfEmployee() {
-        List<Employee> employeeLis = employeeRepository.findAll();
+        List<Employee> employeeLis = employeeRepository.findByIsDeletedFalse();
         return EmployeeResponseMapper.getListEmployeeResponse(employeeLis);
     }
 
     @Override
     public EmployeeResponseDto getEmployeeById(Long id) {
-       Employee employee =  employeeRepository.findById(id).orElseThrow(()-> );
+        Employee employee = employeeRepository.findByIsDeletedFalseAndId(id).orElseThrow(() -> new RuntimeException(""));
         return EmployeeResponseMapper.getEmployeeResponse(employee);
+    }
+
+    @Override
+    public void deleteEmployeeById(Long id) {
+        employeeRepository.deleteById(id);
+    }
+
+    @Override
+    public void softDeleteEmployeeById(Long id) {
+        Employee employee = employeeRepository.findByIsDeletedFalseAndId(id).orElseThrow(() -> new RuntimeException("Not found"));
+        employee.setIsDeleted(true);
+        employeeRepository.save(employee);
+
     }
 
 }

@@ -15,4 +15,8 @@ public interface EmployeeService {
     List<EmployeeResponseDto> getListOfEmployee();
 
     EmployeeResponseDto getEmployeeById(Long id);
+
+    void deleteEmployeeById(Long id);
+
+    void softDeleteEmployeeById(Long id);
 }
