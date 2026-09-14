@@ -10,9 +10,10 @@ import java.util.Optional;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-   List<Employee> findByIsDeletedFalse();
+    List<Employee> findByIsDeletedFalse();
 
-   Optional<Employee> findByIsDeletedFalseAndId(Long id);
+    Optional<Employee> findByIsDeletedFalseAndId(Long id);
 
+    boolean existsByEmail(String email);
 
 }

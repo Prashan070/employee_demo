@@ -3,6 +3,8 @@ package com.example.employeeDemo.Service;
 import com.example.employeeDemo.Dto.EmployeeRequestDto;
 import com.example.employeeDemo.Dto.EmployeeResponseDto;
 import com.example.employeeDemo.Entity.Employee;
+import com.example.employeeDemo.Exception.DuplicateEmailException;
+import com.example.employeeDemo.Exception.ResourceNotFoundException;
 import com.example.employeeDemo.Mapper.EmployeeRequestMapper;
 import com.example.employeeDemo.Mapper.EmployeeResponseMapper;
 import com.example.employeeDemo.Respository.EmployeeRepository;
@@ -23,6 +25,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeResponseDto createEmployee(EmployeeRequestDto employeeRequestDto) {
         Employee employee = EmployeeRequestMapper.getEmployeeEntity(employeeRequestDto);
         employee.setIsDeleted(false);
+
+        boolean isAvailable = employeeRepository.existsByEmail(employee.getEmail());
+
+        if (isAvailable) {
+            throw new DuplicateEmailException("Duplicate email found");
+        }
+
+
         Employee savedEmployee = employeeRepository.save(employee);
         return EmployeeResponseMapper.getEmployeeResponse(savedEmployee);
     }
@@ -35,12 +45,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeResponseDto getEmployeeById(Long id) {
-        Employee employee = employeeRepository.findByIsDeletedFalseAndId(id).orElseThrow(() -> new RuntimeException(""));
+        Employee employee = employeeRepository.findByIsDeletedFalseAndId(id).orElseThrow(() -> new ResourceNotFoundException("Emp is not avaiable"));
         return EmployeeResponseMapper.getEmployeeResponse(employee);
     }
 
     @Override
     public void deleteEmployeeById(Long id) {
+        employeeRepository.findByIsDeletedFalseAndId(id).orElseThrow(() -> new ResourceNotFoundException("Emp is not avaiable"));
         employeeRepository.deleteById(id);
     }
 
