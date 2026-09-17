@@ -1,6 +1,7 @@
 package com.example.employeeDemo.Controller;
 
 
+import com.example.employeeDemo.Configuration.PaymentGatewayProperties;
 import com.example.employeeDemo.Dto.EmployeeRequestDto;
 import com.example.employeeDemo.Dto.EmployeeResponseDto;
 import com.example.employeeDemo.Service.EmployeeService;
@@ -17,12 +18,18 @@ import java.util.List;
 public class EmployeeController {
 
     EmployeeService employeeService;
+    PaymentGatewayProperties paymentGatewayProperties;
 
-    @Value("${app.welcome.message}")
-    String name;
-
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService, PaymentGatewayProperties paymentGatewayProperties) {
         this.employeeService = employeeService;
+        this.paymentGatewayProperties = paymentGatewayProperties;
+    }
+
+    @GetMapping("/myname")
+    public String Test() {
+        return paymentGatewayProperties.getType() + " " +
+                paymentGatewayProperties.getRetryCount()+ " " +
+                paymentGatewayProperties.getTimeout();
     }
 
     @PostMapping
@@ -38,26 +45,22 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeResponseDto> getEmployeeById(@PathVariable Long id){
+    public ResponseEntity<EmployeeResponseDto> getEmployeeById(@PathVariable Long id) {
         EmployeeResponseDto employeeResponseDto = employeeService.getEmployeeById(id);
         return ResponseEntity.status(HttpStatus.OK).body(employeeResponseDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long id){
+    public ResponseEntity<String> deleteEmployeeById(@PathVariable Long id) {
         employeeService.deleteEmployeeById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PatchMapping("/soft-delete/{id}")
-    public ResponseEntity<String> softDeleteEmployeeById(@PathVariable Long id){
+    public ResponseEntity<String> softDeleteEmployeeById(@PathVariable Long id) {
         employeeService.softDeleteEmployeeById(id);
         return ResponseEntity.status(HttpStatus.GONE).build();
     }
 
-    @GetMapping("/myname")
-    public String Test() {
-       return name;
-    }
 
 }

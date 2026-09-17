@@ -2,8 +2,6 @@ server:
   port: 8082
 
 spring:
-
-
   datasource:
     url: jdbc:postgresql://localhost:5432/employeedb
     username: prashansrivastava
@@ -22,4 +20,9 @@ spring:
 
 app:
   welcome:
-    message: Prashan
+    name: Prashan
+
+payment-gateway:
+  type: GIGIG
+  retry-count: 3
+  timeout: 5000
