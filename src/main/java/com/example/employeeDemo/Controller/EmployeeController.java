@@ -1,8 +1,8 @@
 package com.example.employeeDemo.Controller;
 
 
-import com.example.employeeDemo.Configuration.NotificationService;
-import com.example.employeeDemo.Configuration.PaymentGatewayProperties;
+import com.example.employeeDemo.Configuration.profiles.NotificationService;
+import com.example.employeeDemo.Configuration.profiles.PaymentGatewayProperties;
 import com.example.employeeDemo.Dto.EmployeeRequestDto;
 import com.example.employeeDemo.Dto.EmployeeResponseDto;
 import com.example.employeeDemo.Service.EmployeeService;

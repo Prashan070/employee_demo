@@ -1,4 +1,4 @@
-package com.example.employeeDemo.Configuration;
+package com.example.employeeDemo.Configuration.profiles;
 
 import lombok.Getter;
 import lombok.Setter;

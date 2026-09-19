@@ -1,4 +1,4 @@
-package com.example.employeeDemo.Configuration;
+package com.example.employeeDemo.Configuration.profiles;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

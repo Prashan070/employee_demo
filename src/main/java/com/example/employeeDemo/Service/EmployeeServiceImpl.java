@@ -1,6 +1,5 @@
 package com.example.employeeDemo.Service;
 
-import com.example.employeeDemo.Configuration.PaymentGatewayProperties;
 import com.example.employeeDemo.Dto.EmployeeRequestDto;
 import com.example.employeeDemo.Dto.EmployeeResponseDto;
 import com.example.employeeDemo.Entity.Employee;
