@@ -1,12 +1,12 @@
 package com.example.employeeDemo.Controller;
 
 
+import com.example.employeeDemo.Configuration.NotificationService;
 import com.example.employeeDemo.Configuration.PaymentGatewayProperties;
 import com.example.employeeDemo.Dto.EmployeeRequestDto;
 import com.example.employeeDemo.Dto.EmployeeResponseDto;
 import com.example.employeeDemo.Service.EmployeeService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,19 +17,26 @@ import java.util.List;
 @RequestMapping("/emp")
 public class EmployeeController {
 
-    EmployeeService employeeService;
-    PaymentGatewayProperties paymentGatewayProperties;
+    private EmployeeService employeeService;
+    private PaymentGatewayProperties paymentGatewayProperties;
+    private NotificationService notificationService;
 
-    public EmployeeController(EmployeeService employeeService, PaymentGatewayProperties paymentGatewayProperties) {
+    public EmployeeController(EmployeeService employeeService, PaymentGatewayProperties paymentGatewayProperties, NotificationService notificationService) {
         this.employeeService = employeeService;
         this.paymentGatewayProperties = paymentGatewayProperties;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/myname")
-    public String Test() {
+    public String test() {
         return paymentGatewayProperties.getType() + " " +
-                paymentGatewayProperties.getRetryCount()+ " " +
+                paymentGatewayProperties.getRetryCount() + " " +
                 paymentGatewayProperties.getTimeout();
+    }
+
+    @PostMapping("/message")
+    public void sendNotification(@RequestParam String message) {
+        notificationService.sendNotification(message);
     }
 
     @PostMapping
